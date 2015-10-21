@@ -50,5 +50,15 @@ class  Account {
 		return balance * INTEREST_RATE / 36500;
 	}
 
+	
+
+	/*@
+	 @ requires daysLeft >= 0;
+	 @ ensures calculateInterest() >= 0 ==> \result >= interest;
+	 @*/
+	/*@ pure @*/ int estimatedInterest(int daysLeft) {
+		return interest + daysLeft * calculateInterest();
+	}
+
 
 }
