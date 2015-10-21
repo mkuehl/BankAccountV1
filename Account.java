@@ -3,7 +3,7 @@ package ba;
 class  Account {
 	
 
-	final static int OVERDRAFT_LIMIT  = -5000;
+	final static int OVERDRAFT_LIMIT = 0;
 
 	
 
@@ -34,30 +34,12 @@ class  Account {
 
 	
 
-	final static int INTEREST_RATE = 2;
-
-	
-
-	int interest = 0;
-
-	
-
 	/*@
-	  @ ensures (balance >= 0 ==> \result >= 0) 
-	  @   && (balance <= 0 ==> \result <= 0);
-	  @*/
-	/*@ pure @*/ int calculateInterest() {
-		return balance * INTEREST_RATE / 36500;
-	}
-
-	
-
-	/*@
-	 @ requires daysLeft >= 0;
-	 @ ensures calculateInterest() >= 0 ==> \result >= interest;
+	 @ requires amount >= 0;
+	 @ ensures balance >= amount <==> \result;
 	 @*/
-	/*@ pure @*/ int estimatedInterest(int daysLeft) {
-		return interest + daysLeft * calculateInterest();
+	boolean credit(int amount) {
+		return balance >= amount;
 	}
 
 
