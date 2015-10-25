@@ -3,7 +3,7 @@ package ba;
 class  Account {
 	
 
-	final static int OVERDRAFT_LIMIT  = -5000;
+	final static int OVERDRAFT_LIMIT = 0;
 
 	
 
@@ -24,7 +24,7 @@ class  Account {
 	 @ ensures (!\result ==> balance == \old(balance)) 
 	 @   && (\result ==> balance == \old(balance) + x); 
 	 @*/
-	boolean update(int x) {
+	 private boolean  update__wrappee__BankAccount  (int x) {
 		int newBalance = balance + x;
 		if (newBalance < OVERDRAFT_LIMIT)
 			return false;
@@ -34,41 +34,32 @@ class  Account {
 
 	
 
-	final static int INTEREST_RATE = 2;
-
-	
-
-	int interest = 0;
-
-	
-
 	/*@
-	  @ ensures (balance >= 0 ==> \result >= 0) 
-	  @   && (balance <= 0 ==> \result <= 0);
-	  @*/
-	/*@ pure @*/ int calculateInterest() {
-		return balance * INTEREST_RATE / 36500;
-	}
-
-	
-
-	/*@
-	 @ requires daysLeft >= 0;
-	 @ ensures calculateInterest() >= 0 ==> \result >= interest;
+	 @ ensures \original 
+	 @   && (!\result ==> withdraw == \old(withdraw)) 
+	 @   && (\result ==> withdraw <= \old(withdraw));
 	 @*/
-	/*@ pure @*/ int estimatedInterest(int daysLeft) {
-		return interest + daysLeft * calculateInterest();
+	boolean update(int x) {
+		int newWithdraw = withdraw;
+		if (x < 0)  {
+			newWithdraw += x;
+			if (newWithdraw < DAILY_LIMIT) 
+				return false;
+		}
+		if (!update__wrappee__BankAccount(x))
+			return false;
+		withdraw = newWithdraw;
+		return true;
 	}
 
 	
 
-	/*@
-	 @ requires amount >= 0;
-	 @ ensures balance >= amount <==> \result;
-	 @*/
-	boolean credit(int amount) {
-		return balance >= amount;
-	}
+	final static int DAILY_LIMIT = -1000;
+
+	
+	
+	//@ invariant withdraw >= DAILY_LIMIT;
+	int withdraw = 0;
 
 
 }
