@@ -3,7 +3,7 @@ package ba;
 class  Account {
 	
 
-	final static int OVERDRAFT_LIMIT = 0;
+	final static int OVERDRAFT_LIMIT  = -5000;
 
 	
 
