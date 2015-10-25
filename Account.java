@@ -3,7 +3,7 @@ package ba;
 class  Account {
 	
 
-	final static int OVERDRAFT_LIMIT  = -5000;
+	final static int OVERDRAFT_LIMIT = 0;
 
 	
 
@@ -30,6 +30,24 @@ class  Account {
 			return false;
 		balance = newBalance;
 		return true;
+	}
+
+	
+
+	final static int INTEREST_RATE = 2;
+
+	
+
+	int interest = 0;
+
+	
+
+	/*@
+	  @ ensures (balance >= 0 ==> \result >= 0) 
+	  @   && (balance <= 0 ==> \result <= 0);
+	  @*/
+	/*@ pure @*/ int calculateInterest() {
+		return balance * INTEREST_RATE / 36500;
 	}
 
 	
